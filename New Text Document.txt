@@ -1,0 +1,91 @@
+<?php
+// payment.php
+$total = isset($_GET['total']) ? intval($_GET['total']) : 0;
+
+// अगर total 0 है तो वापस home भेज दो
+if ($total <= 0) {
+    echo "<script>alert('Invalid payment request!'); window.location.href='index.php';</script>";
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment - Yatra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        h2 {
+            color: #cc0000;
+        }
+        .payment-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .amount {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        select, input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .pay-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px;
+            background: #cc0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background: #a80000;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Complete Your Payment</h2>
+    <div class="payment-box">
+        <div class="amount">Total Amount: ₹<?php echo $total; ?></div>
+
+        <form method="POST" action="payment_success.php">
+            <label for="method">Select Payment Method</label>
+            <select id="method" name="method" required>
+                <option value="">--Choose Payment Method--</option>
+                <option value="upi">UPI / Scanner</option>
+                <option value="card">Credit / Debit Card</option>
+                <option value="netbanking">Net Banking</option>
+                <option value="wallet">Wallet / Paytm / PhonePe</option>
+            </select>
+
+            <input type="hidden" name="amount" value="<?php echo $total; ?>">
+
+            <button type="submit" class="pay-btn">Pay Now</button>
+        </form>
+    </div>
+
+</body>
+</html>
